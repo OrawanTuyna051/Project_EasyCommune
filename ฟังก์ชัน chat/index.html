@@ -5,33 +5,46 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500&display=swap" rel="stylesheet">
-    <title>chat</title>
+    <title>Main</title>
 </head>
 <body>
-
     <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-analytics.js"></script>
-    <script src="chat.js"></script>
+    <script src="script.js"></script>
 
     <div class="container">
-        <div class="box_chat">
-            <div class="top">
-                <h1>CHAT </h1>
-                <h2>  ✿ Easy Commune ✿ </h2>
-            </div>
-            
-            <div id="box_messages" class="box_messages">
-               
-            </div>
-                <div class="input_box">
-                    <input id="msg_text" type="text" placeholder="พิมพ์ข้อความ...">
-                    <button onclick="send()">ส่ง</button>
-                </div>    
+        <div class="box_input">
+            <input type="text" placeholder="กรอกชื่อของคุณ..." id="input_name"><br>
+            <button id="btn_login" onclick="login()" disabled>เข้าสู่ระบบ</button>
         </div>
     </div>
     
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
