@@ -1,42 +1,41 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+import 'signup_screen.dart';
+import 'home_screen.dart';
 import '../models/authentication.dart';
 
-import 'home_screen.dart';
-import 'login_screen.dart';
-
-class SignupScreen extends StatefulWidget {
-  static const routeName = '/signup';
+class LoginScreen extends StatefulWidget {
+  static const routeName = '/login';
   @override
-  _SignupScreenState createState() => _SignupScreenState();
+  _LoginScreenState createState() => _LoginScreenState();
 }
 
-class _SignupScreenState extends State<SignupScreen> {
+class _LoginScreenState extends State<LoginScreen> {
 
   final GlobalKey<FormState> _formKey = GlobalKey();
-  TextEditingController _passwordController = new TextEditingController();
 
   Map<String, String> _authData = {
     'email' : '',
-    'password' : ''
+    'password': ''
   };
 
   void _showErrorDialog(String msg)
   {
     showDialog(
         context: context,
-        builder: (ctx) => AlertDialog(
-          title: Text('An Error Occured'),
-          content: Text(msg),
-          actions: <Widget>[
-            FlatButton(
-              child: Text('Okay'),
-              onPressed: (){
-                Navigator.of(ctx).pop();
-              },
-            )
-          ],
-        )
+      builder: (ctx) => AlertDialog(
+        title: Text('An Error Occured'),
+        content: Text(msg),
+        actions: <Widget>[
+          FlatButton(
+            child: Text('Okay'),
+            onPressed: (){
+              Navigator.of(ctx).pop();
+            },
+          )
+        ],
+      )
     );
   }
 
@@ -49,13 +48,13 @@ class _SignupScreenState extends State<SignupScreen> {
     _formKey.currentState.save();
 
     try{
-      await Provider.of<Authentication>(context, listen: false).signUp(
+      await Provider.of<Authentication>(context, listen: false).logIn(
           _authData['email'],
           _authData['password']
       );
       Navigator.of(context).pushReplacementNamed(HomeScreen.routeName);
 
-    } catch(error)
+    } catch (error)
     {
       var errorMessage = 'Authentication Failed. Please try again later.';
       _showErrorDialog(errorMessage);
@@ -66,19 +65,18 @@ class _SignupScreenState extends State<SignupScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Signup'),
-
+        title: Text('Login'),
         actions: <Widget>[
           FlatButton(
             child: Row(
               children: <Widget>[
-                Text('Login'),
-                Icon(Icons.person)
+                Text('Signup'),
+                Icon(Icons.person_add)
               ],
             ),
             textColor: Colors.white,
             onPressed: (){
-              Navigator.of(context).pushReplacementNamed(LoginScreen.routeName);
+              Navigator.of(context).pushReplacementNamed(SignupScreen.routeName);
             },
           )
         ],
@@ -87,12 +85,12 @@ class _SignupScreenState extends State<SignupScreen> {
         children: <Widget>[
           Container(
             decoration: BoxDecoration(
-                gradient: LinearGradient(
-                    colors: [
-                      Colors.limeAccent,
-                      Colors.redAccent,
-                    ]
-                )
+              gradient: LinearGradient(
+                colors: [
+                  Colors.lightGreenAccent,
+                  Colors.blue,
+                ]
+              )
             ),
           ),
           Center(
@@ -101,7 +99,7 @@ class _SignupScreenState extends State<SignupScreen> {
                 borderRadius: BorderRadius.circular(10.0),
               ),
               child: Container(
-                height: 300,
+                height: 260,
                 width: 300,
                 padding: EdgeInsets.all(16),
                 child: Form(
@@ -116,9 +114,9 @@ class _SignupScreenState extends State<SignupScreen> {
                           validator: (value)
                           {
                             if(value.isEmpty || !value.contains('@'))
-                            {
-                              return 'invalid email';
-                            }
+                              {
+                                return 'invalid email';
+                              }
                             return null;
                           },
                           onSaved: (value)
@@ -131,13 +129,12 @@ class _SignupScreenState extends State<SignupScreen> {
                         TextFormField(
                           decoration: InputDecoration(labelText: 'Password'),
                           obscureText: true,
-                          controller: _passwordController,
                           validator: (value)
                           {
                             if(value.isEmpty || value.length<=5)
-                            {
-                              return 'invalid password';
-                            }
+                              {
+                                return 'invalid password';
+                              }
                             return null;
                           },
                           onSaved: (value)
@@ -145,30 +142,12 @@ class _SignupScreenState extends State<SignupScreen> {
                             _authData['password'] = value;
                           },
                         ),
-
-                        //Confirm Password
-                        TextFormField(
-                          decoration: InputDecoration(labelText: 'Confirm Password'),
-                          obscureText: true,
-                          validator: (value)
-                          {
-                            if(value.isEmpty || value != _passwordController.text)
-                            {
-                              return 'invalid password';
-                            }
-                            return null;
-                          },
-                          onSaved: (value)
-                          {
-
-                          },
-                        ),
                         SizedBox(
                           height: 30,
                         ),
                         RaisedButton(
                           child: Text(
-                              'Submit'
+                            'Submit'
                           ),
                           onPressed: ()
                           {
